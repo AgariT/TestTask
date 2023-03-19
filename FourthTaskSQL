@@ -1,0 +1,19 @@
+CREATE TABLE sportmen (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(11) NOT NULL CHECK (phone ~ '^[+7|7|8][0-9]{10}$'),
+    birthdate DATE NOT NULL,
+    passport_number VARCHAR(10) NOT NULL,
+    average_place INT CHECK (average_place > 0),
+    biography TEXT,
+    video_presentation TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+SELECT name, COUNT(result.id) as competitions_count 
+FROM sportmen 
+    JOIN result ON sportmen.id = result.sportman_id 
+GROUP BY sportmen.id 
+ORDER BY competitions_count DESC 
+LIMIT 5;
