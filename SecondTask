@@ -1,0 +1,21 @@
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="csv_file">
+    <button type="submit">Загрузить</button>
+</form>
+
+Обработка загруженного файла и создание файлов в папке /upload/:
+
+if (isset($_FILES['csv_file'])) {
+    $csv_file = $_FILES['csv_file']['tmp_name'];
+    $handle = fopen($csv_file, "r");
+    $i = 1;
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        $filename = trim($data[0]);
+        $content = trim($data[1]);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $new_filename = "upload/{$i}.{$ext}";
+        file_put_contents($new_filename, $content);
+        $i++;
+    }
+    fclose($handle);
+}
