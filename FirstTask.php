@@ -16,5 +16,4 @@ for ($i = 0; $i < $count; $i++)
         $i++;
     }
 }
-print_r($array);
 ?>
